@@ -54,7 +54,7 @@ export default function Slide01Cover() {
         transition={{ delay: 0.9, duration: 0.5 }}
         className="absolute bottom-32 left-20 right-20 max-w-3xl text-2xl text-[var(--color-text-secondary)] leading-snug"
       >
-        Son las 17:58 de un viernes. Tu compañero pusheó directo a master.{" "}
+        Son las 17:58 de un viernes. Tu compañero pusheó directo a main.{" "}
         <span className="text-[var(--color-text-primary)] font-medium">
           ¿Qué hacés?
         </span>

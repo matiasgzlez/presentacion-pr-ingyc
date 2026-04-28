@@ -5,14 +5,14 @@ import { motion } from "motion/react";
 const moments = [
   {
     time: "17:58",
-    action: "git push origin master (sin PR, 5 commits)",
+    action: "git push origin main (sin PR, 5 commits)",
     consequence: "Commits sueltos sin nombre: ¿cuál es la feature, cuál el fix?",
     failed: "Identificación",
   },
   {
     time: "18:03",
     action: "Tests rotos en prod",
-    consequence: "Nadie validó el cambio antes de que llegara a master",
+    consequence: "Nadie validó el cambio antes de que llegara a main",
     failed: "Control",
   },
   {
@@ -55,7 +55,7 @@ export default function Slide02Problem() {
           {" · "}
           <span>Single repo en GitHub</span>
           {" · "}
-          <span>Deploy directo a master</span>
+          <span>Deploy directo a main</span>
           {" · "}
           <span className="text-white/30">Sin code review</span>
         </motion.div>

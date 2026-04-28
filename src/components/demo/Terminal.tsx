@@ -147,19 +147,19 @@ export default function Terminal({
 
   return (
     <div
-      className={`bg-[var(--color-bg-dark)] text-white font-mono text-sm flex flex-col ${className}`}
+      className={`bg-[var(--color-bg-dark)] text-white font-mono text-2xl flex flex-col ${className}`}
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="flex items-center gap-2 px-5 py-2 border-b border-white/10 select-none">
-        <span className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-        <span className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-        <span className="w-3 h-3 rounded-full bg-[#27C93F]" />
-        <span className="ml-3 text-xs text-white/50 tracking-wide">
+      <div className="flex items-center gap-3 px-6 py-3 border-b border-white/10 select-none">
+        <span className="w-4 h-4 rounded-full bg-[#FF5F56]" />
+        <span className="w-4 h-4 rounded-full bg-[#FFBD2E]" />
+        <span className="w-4 h-4 rounded-full bg-[#27C93F]" />
+        <span className="ml-4 text-base text-white/50 tracking-wide">
           ~/single-repository — zsh
         </span>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-0.5">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-5 space-y-1">
         {history.map((line, i) => (
           <div
             key={i}
@@ -175,7 +175,7 @@ export default function Terminal({
           >
             {line.type === "command" ? (
               <>
-                <span className="text-[var(--color-accent)] mr-2">$</span>
+                <span className="text-[var(--color-accent)] mr-3 font-bold">$</span>
                 {line.text}
               </>
             ) : (
@@ -187,9 +187,9 @@ export default function Terminal({
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center px-5 pb-4 pt-2 border-t border-white/5"
+        className="flex items-center px-6 pb-5 pt-3 border-t border-white/5"
       >
-        <span className="text-[var(--color-accent)] mr-3 select-none">$</span>
+        <span className="text-[var(--color-accent)] mr-4 select-none font-bold">$</span>
         <input
           ref={inputRef}
           type="text"

@@ -27,12 +27,14 @@ const branches: BranchData[] = [
     commits: 3,
     status: "active",
     reviewer: "@maria",
-    path: "M 300 250 Q 425 120 550 120 Q 675 120 700 250",
-    labelPos: { x: 500, y: 100 },
+    // Quadratic bezier: M(300,250) Q(500,80) (700,250)
+    path: "M 300 250 Q 500 80 700 250",
+    labelPos: { x: 415, y: 230 },
+    // Points on the bezier at t=0.25, 0.5, 0.75
     commitPositions: [
-      { x: 400, y: 158 },
-      { x: 500, y: 124 },
-      { x: 620, y: 138 },
+      { x: 400, y: 186 },
+      { x: 500, y: 165 },
+      { x: 600, y: 186 },
     ],
   },
   {
@@ -42,11 +44,13 @@ const branches: BranchData[] = [
     commits: 2,
     status: "pending",
     reviewer: "@juan",
-    path: "M 600 250 Q 725 380 850 380 Q 950 380 950 250",
-    labelPos: { x: 760, y: 415 },
+    // Quadratic bezier: M(750,250) Q(875,420) (1000,250)
+    path: "M 750 250 Q 875 420 1000 250",
+    labelPos: { x: 800, y: 410 },
+    // Points on the bezier at t=0.33 and t=0.67
     commitPositions: [
-      { x: 740, y: 366 },
-      { x: 870, y: 376 },
+      { x: 833, y: 325 },
+      { x: 917, y: 325 },
     ],
   },
   {
@@ -56,9 +60,11 @@ const branches: BranchData[] = [
     commits: 1,
     status: "idle",
     reviewer: "@lucia",
-    path: "M 200 250 Q 220 160 280 160 Q 290 250 290 250",
-    labelPos: { x: 220, y: 145 },
-    commitPositions: [{ x: 250, y: 168 }],
+    // Quadratic bezier: M(180,250) Q(230,100) (280,250)
+    path: "M 180 250 Q 230 100 280 250",
+    labelPos: { x: 175, y: 290 },
+    // Point on the bezier at t=0.5: midpoint formula
+    commitPositions: [{ x: 230, y: 175 }],
   },
 ];
 
@@ -99,10 +105,10 @@ export default function SingleRepoDiagram() {
         <motion.line
           x1={100}
           y1={250}
-          x2={1100}
+          x2={1080}
           y2={250}
           stroke="#0A0A0A"
-          strokeWidth={3}
+          strokeWidth={7}
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
@@ -111,11 +117,11 @@ export default function SingleRepoDiagram() {
 
         {/* master label */}
         <motion.text
-          x={1115}
+          x={1100}
           y={255}
           dominantBaseline="middle"
           className="font-mono"
-          fontSize={14}
+          fontSize={26}
           fontWeight={700}
           fill="#0A0A0A"
           initial={{ opacity: 0 }}
@@ -156,10 +162,10 @@ export default function SingleRepoDiagram() {
                 stroke={branch.color}
                 fill="none"
                 strokeLinecap="round"
-                initial={{ pathLength: 0, strokeWidth: 2.5 }}
+                initial={{ pathLength: 0, strokeWidth: 5 }}
                 animate={{
                   pathLength: 1,
-                  strokeWidth: isActive ? 4 : 2.5,
+                  strokeWidth: isActive ? 8 : 5,
                 }}
                 transition={{
                   pathLength: {
@@ -171,31 +177,16 @@ export default function SingleRepoDiagram() {
                 }}
               />
 
-              {/* Branch label */}
-              <motion.text
-                x={branch.labelPos.x}
-                y={branch.labelPos.y}
-                fontSize={13}
-                fontWeight={600}
-                fill={branch.color}
-                className="font-mono"
-                initial={{ opacity: 0, y: branch.labelPos.y + (branch.id === "dashboard" ? -6 : 6) }}
-                animate={{ opacity: 1, y: branch.labelPos.y }}
-                transition={{ duration: 0.4, delay: commitsStart(i) }}
-              >
-                {branch.name}
-              </motion.text>
-
               {/* Commits */}
               {branch.commitPositions.map((pos, ci) => (
                 <motion.circle
                   key={ci}
                   cx={pos.x}
                   cy={pos.y}
-                  r={isActive ? 11 : 10}
+                  r={isActive ? 18 : 16}
                   fill={branch.color}
                   stroke="#FFFFFF"
-                  strokeWidth={2}
+                  strokeWidth={3}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={
                     isActive
@@ -245,7 +236,7 @@ export default function SingleRepoDiagram() {
             key={x}
             cx={x}
             cy={250}
-            r={6}
+            r={11}
             fill="#0A0A0A"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -267,7 +258,7 @@ export default function SingleRepoDiagram() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.15 }}
-            className="pointer-events-none absolute z-10 bg-[#0A0A0A] text-white px-4 py-2 rounded-md text-sm font-mono shadow-xl whitespace-nowrap"
+            className="pointer-events-none absolute z-10 bg-[#0A0A0A] text-white px-5 py-3 rounded-md text-xl font-mono shadow-xl whitespace-nowrap"
             style={{
               top: tooltip.y + 16,
               left: tooltip.x + 16,

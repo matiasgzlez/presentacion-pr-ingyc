@@ -10,7 +10,7 @@ export default function Slide04SingleRepo() {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]"
+        className="font-mono text-2xl uppercase tracking-[0.28em] text-[var(--color-accent)]"
       >
         Single Repository
       </motion.span>
@@ -19,10 +19,10 @@ export default function Slide04SingleRepo() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
-        className="mt-6 font-black leading-[0.95] tracking-[-0.03em] text-5xl md:text-6xl max-w-5xl"
+        className="mt-6 font-black leading-[0.95] tracking-[-0.03em] text-6xl md:text-7xl"
       >
         Un solo repo. Múltiples branches.{" "}
-        <span className="text-[var(--color-accent)]">Una fuente de verdad.</span>
+        <span className="text-[var(--color-accent)]">Un historial compartido.</span>
       </motion.h2>
 
       <motion.div
@@ -36,14 +36,6 @@ export default function Slide04SingleRepo() {
         </div>
       </motion.div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 2.2 }}
-        className="text-center text-sm font-mono text-[var(--color-text-secondary)]"
-      >
-        pasá el cursor sobre cada branch →
-      </motion.p>
     </section>
   );
 }

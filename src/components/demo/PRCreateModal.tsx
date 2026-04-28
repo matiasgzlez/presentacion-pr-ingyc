@@ -7,12 +7,14 @@ type Props = {
   sourceBranch: string;
   targetBranch?: string;
   title?: string;
+  onClose: () => void;
 };
 
 export default function PRCreateModal({
   sourceBranch,
-  targetBranch = "master",
+  targetBranch = "main",
   title = "add saludo",
+  onClose,
 }: Props) {
   return (
     <motion.div
@@ -70,20 +72,15 @@ export default function PRCreateModal({
         </div>
 
         <div className="flex justify-end gap-3">
-          <button
-            type="button"
-            className="px-4 py-2 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
-          >
-            Cancel
-          </button>
           <motion.button
             type="button"
+            onClick={onClose}
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
-            className="px-5 py-2 text-sm font-bold text-white bg-[var(--color-accent)] rounded hover:opacity-90 transition-opacity"
+            className="px-6 py-3 text-base font-bold text-white bg-[var(--color-accent)] rounded hover:opacity-90 transition-opacity"
           >
-            Create
+            Continuar →
           </motion.button>
         </div>
       </motion.div>

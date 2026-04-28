@@ -130,10 +130,10 @@ export function executeCommand(
 
   // git pr create
   if (trimmed === "git pr create") {
-    if (state.currentBranch === "master") {
+    if (state.currentBranch === "main") {
       append({
         type: "error",
-        text: "error: cannot create PR from master to master",
+        text: "error: cannot create PR from main to main",
       });
       return { success: false };
     }
@@ -170,7 +170,7 @@ export function executeCommand(
     dispatch({ type: "PR_MERGE", hash });
     append({
       type: "success",
-      text: "Merged pull request #1 into master",
+      text: "Merged pull request #1 into main",
     });
     return { success: true };
   }

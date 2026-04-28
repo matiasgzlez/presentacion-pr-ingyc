@@ -15,33 +15,44 @@ const MASTER_X_START = 100;
 const COMMIT_SPACING = 130;
 
 export default function GitVisualization({ state, className = "" }: Props) {
-  const { masterCommits, featureBranch, featureCommits, layout } = useMemo(() => {
-    const masterCommits = state.commits.filter((c) => c.branch === "master");
-    const featureBranch = state.branches.find((b) => b.name !== "master");
+  const { masterCommits, featureBranch, featureCommits, layout, mergeCommitIdx } = useMemo(() => {
+    const masterCommits = state.commits.filter((c) => c.branch === "main");
+    const featureBranch = state.branches.find((b) => b.name !== "main");
     const featureCommits = featureBranch
       ? state.commits.filter((c) => c.branch === featureBranch.name)
       : [];
 
-    const masterX = (i: number) => MASTER_X_START + i * COMMIT_SPACING;
-
     const branchOriginIdx = featureBranch?.createdAt ?? -1;
-    const branchOriginX = masterX(Math.max(0, branchOriginIdx));
+    const branchOriginX_ = MASTER_X_START + Math.max(0, branchOriginIdx) * COMMIT_SPACING;
+
     const featureCommitX = (i: number) =>
-      branchOriginX + COMMIT_SPACING * 0.85 + i * (COMMIT_SPACING * 0.85);
+      branchOriginX_ + COMMIT_SPACING * 0.85 + i * (COMMIT_SPACING * 0.85);
+
+    const mergeCommitIdx =
+      featureBranch?.merged && masterCommits.length > 0
+        ? masterCommits.length - 1
+        : -1;
+
+    // Position the merge commit far enough right of the last feature commit
+    const lastFeatureX =
+      featureCommits.length > 0
+        ? featureCommitX(featureCommits.length - 1)
+        : branchOriginX_ + COMMIT_SPACING * 0.85;
+    const mergeCommitX = lastFeatureX + 90;
+
+    const masterX = (i: number) => {
+      if (i === mergeCommitIdx) return mergeCommitX;
+      return MASTER_X_START + i * COMMIT_SPACING;
+    };
 
     return {
       masterCommits,
       featureBranch,
       featureCommits,
-      layout: { masterX, branchOriginX, featureCommitX },
+      mergeCommitIdx,
+      layout: { masterX, branchOriginX: branchOriginX_, featureCommitX },
     };
   }, [state.commits, state.branches]);
-
-  // The merge commit on master (if any) is the last master commit added after a feature branch was merged
-  const mergeCommitIdx =
-    featureBranch?.merged && masterCommits.length > 0
-      ? masterCommits.length - 1
-      : -1;
 
   // Branch path: from origin master commit, curve up to feature lane, run horizontally
   // If merged, return curve to the merge commit on master
@@ -55,22 +66,23 @@ export default function GitVisualization({ state, className = "" }: Props) {
       featureCommits.length > 0
         ? layout.featureCommitX(featureCommits.length - 1)
         : laneStartX + 30;
-    const horizontalEndX = Math.max(laneStartX, lastFeatureX) + 40;
-
-    let d = `M ${startX} ${startY} Q ${apexLiftX} ${FEATURE_Y} ${laneStartX} ${FEATURE_Y} L ${horizontalEndX} ${FEATURE_Y}`;
 
     if (featureBranch.merged && mergeCommitIdx >= 0) {
       const mergeX = layout.masterX(mergeCommitIdx);
-      const mergeY = MASTER_Y;
-      d += ` Q ${mergeX - 50} ${FEATURE_Y} ${mergeX} ${mergeY}`;
+      // Lane ends just past last commit but never past the merge X (would cause backwards curve)
+      const cornerX = Math.min(lastFeatureX + 25, mergeX - 5);
+      // Quadratic with control at (mergeX, FEATURE_Y) creates a clean quarter-arc into the merge commit
+      return `M ${startX} ${startY} Q ${apexLiftX} ${FEATURE_Y} ${laneStartX} ${FEATURE_Y} L ${cornerX} ${FEATURE_Y} Q ${mergeX} ${FEATURE_Y} ${mergeX} ${MASTER_Y}`;
     }
-    return d;
+
+    const horizontalEndX = Math.max(laneStartX, lastFeatureX) + 40;
+    return `M ${startX} ${startY} Q ${apexLiftX} ${FEATURE_Y} ${laneStartX} ${FEATURE_Y} L ${horizontalEndX} ${FEATURE_Y}`;
   })();
 
   return (
     <div className={`relative ${className}`}>
       <svg
-        viewBox="0 0 1000 320"
+        viewBox="0 0 1040 340"
         className="w-full h-full"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -81,16 +93,16 @@ export default function GitVisualization({ state, className = "" }: Props) {
           x2={950}
           y2={MASTER_Y}
           stroke="#0A0A0A"
-          strokeWidth={3}
+          strokeWidth={6}
           strokeLinecap="round"
         />
 
         {/* master label */}
         <text
-          x={955}
+          x={965}
           y={MASTER_Y}
           dominantBaseline="middle"
-          fontSize={13}
+          fontSize={22}
           fontWeight={700}
           fill="#0A0A0A"
           className="font-mono"
@@ -104,7 +116,7 @@ export default function GitVisualization({ state, className = "" }: Props) {
             key={`branch-${featureBranch.name}`}
             d={branchPath}
             stroke={featureBranch.color}
-            strokeWidth={2.5}
+            strokeWidth={5}
             fill="none"
             strokeLinecap="round"
             initial={{ pathLength: 0, opacity: 0 }}
@@ -121,19 +133,19 @@ export default function GitVisualization({ state, className = "" }: Props) {
           />
         )}
 
-        {/* Branch label */}
+        {/* Branch label - positioned far above and to the left, away from commit hashes */}
         {featureBranch && (
           <motion.text
-            x={layout.branchOriginX + 95}
-            y={FEATURE_Y - 28}
-            fontSize={12}
-            fontWeight={600}
+            x={layout.branchOriginX + 30}
+            y={FEATURE_Y - 75}
+            fontSize={18}
+            fontWeight={700}
             fill={featureBranch.color}
             className="font-mono"
-            initial={{ opacity: 0, y: FEATURE_Y - 20 }}
+            initial={{ opacity: 0, y: FEATURE_Y - 65 }}
             animate={{
               opacity: featureBranch.merged ? 0.5 : 1,
-              y: FEATURE_Y - 28,
+              y: FEATURE_Y - 75,
             }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
@@ -150,10 +162,10 @@ export default function GitVisualization({ state, className = "" }: Props) {
               <motion.circle
                 cx={x}
                 cy={MASTER_Y}
-                r={isMerge ? 16 : 12}
+                r={isMerge ? 22 : 17}
                 fill="#0A0A0A"
                 stroke="#FFFFFF"
-                strokeWidth={2}
+                strokeWidth={3}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{
                   scale: 1,
@@ -171,10 +183,10 @@ export default function GitVisualization({ state, className = "" }: Props) {
                 <motion.circle
                   cx={x}
                   cy={MASTER_Y}
-                  r={12}
+                  r={17}
                   fill="none"
                   stroke="#0A0A0A"
-                  strokeWidth={2}
+                  strokeWidth={3}
                   initial={{ scale: 1, opacity: 0.6 }}
                   animate={{ scale: 2.2, opacity: 0 }}
                   transition={{ duration: 0.9, delay: 0.4 }}
@@ -182,9 +194,9 @@ export default function GitVisualization({ state, className = "" }: Props) {
               )}
               <text
                 x={x}
-                y={MASTER_Y + 30}
+                y={MASTER_Y + 42}
                 textAnchor="middle"
-                fontSize={11}
+                fontSize={16}
                 fill="#6B6B6B"
                 className="font-mono"
               >
@@ -211,11 +223,11 @@ export default function GitVisualization({ state, className = "" }: Props) {
                 <motion.circle
                   cx={x}
                   cy={y}
-                  r={12}
+                  r={16}
                   fill={commit.pushed ? color : "#FFFFFF"}
                   stroke={color}
-                  strokeWidth={2.5}
-                  strokeDasharray={commit.pushed ? "0" : "4 3"}
+                  strokeWidth={4}
+                  strokeDasharray={commit.pushed ? "0" : "5 4"}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{
@@ -227,9 +239,10 @@ export default function GitVisualization({ state, className = "" }: Props) {
                 />
                 <text
                   x={x}
-                  y={y - 22}
+                  y={y - 30}
                   textAnchor="middle"
-                  fontSize={11}
+                  fontSize={16}
+                  fontWeight={600}
                   fill={color}
                   className="font-mono"
                 >
@@ -237,9 +250,9 @@ export default function GitVisualization({ state, className = "" }: Props) {
                 </text>
                 <text
                   x={x}
-                  y={y + 30}
+                  y={y + 40}
                   textAnchor="middle"
-                  fontSize={10}
+                  fontSize={14}
                   fill="#6B6B6B"
                   className="font-mono"
                 >
@@ -260,34 +273,48 @@ export default function GitVisualization({ state, className = "" }: Props) {
           transition={{ duration: 0.3 }}
         >
           {(() => {
-            const onMaster = state.currentBranch === "master";
-            const x = onMaster
+            const onMaster = state.currentBranch === "main";
+            const isAfterMerge = onMaster && mergeCommitIdx >= 0;
+            const baseX = onMaster
               ? layout.masterX(masterCommits.length - 1)
               : featureCommits.length > 0
                 ? layout.featureCommitX(featureCommits.length - 1)
                 : layout.branchOriginX + COMMIT_SPACING * 0.85;
-            const y = onMaster ? MASTER_Y - 50 : FEATURE_Y + 55;
+            // Offset HEAD to the right after a merge so it doesn't overlap the merge curve
+            const x = isAfterMerge ? baseX + 70 : baseX;
+            const y = onMaster ? MASTER_Y - 65 : FEATURE_Y + 70;
             return (
               <g>
                 <rect
-                  x={x - 24}
-                  y={y - 12}
-                  width={48}
-                  height={20}
-                  rx={4}
+                  x={x - 34}
+                  y={y - 16}
+                  width={68}
+                  height={28}
+                  rx={5}
                   fill="#FF6B35"
                 />
                 <text
                   x={x}
-                  y={y + 2}
+                  y={y + 4}
                   textAnchor="middle"
-                  fontSize={11}
+                  fontSize={16}
                   fontWeight={700}
                   fill="#FFFFFF"
                   className="font-mono"
                 >
                   HEAD
                 </text>
+                {isAfterMerge && (
+                  <line
+                    x1={baseX}
+                    y1={MASTER_Y - 22}
+                    x2={x - 34}
+                    y2={y}
+                    stroke="#FF6B35"
+                    strokeWidth={2}
+                    strokeDasharray="3 3"
+                  />
+                )}
               </g>
             );
           })()}

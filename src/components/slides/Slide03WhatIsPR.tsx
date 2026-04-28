@@ -1,35 +1,29 @@
 "use client";
 
 import { motion } from "motion/react";
-import { GitMerge, MessageSquare, CheckCircle2, type LucideIcon } from "lucide-react";
 
-interface Card {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
-
-const cards: Card[] = [
+const solutions = [
   {
-    icon: GitMerge,
-    title: "Mergear",
-    description: "Integrar una rama al proyecto principal.",
+    activity: "Identificación",
+    answer: "El PR agrupa los commits bajo un título, descripción y número (#142).",
   },
   {
-    icon: MessageSquare,
-    title: "Comunicar",
-    description: "Comentarios y discusión técnica del equipo.",
+    activity: "Control",
+    answer: "CI corre los tests automáticamente antes de habilitar el merge.",
   },
   {
-    icon: CheckCircle2,
-    title: "Aprobar",
-    description: "Code review formal antes del merge.",
+    activity: "Auditoría",
+    answer: "Conversación, revisores y aprobaciones quedan registrados para siempre.",
+  },
+  {
+    activity: "Contabilidad",
+    answer: "Cada PR es una entrada en el libro de cambios del proyecto.",
   },
 ];
 
 const container = {
   hidden: {},
-  show: { transition: { delayChildren: 0.3, staggerChildren: 0.15 } },
+  show: { transition: { delayChildren: 0.5, staggerChildren: 0.12 } },
 };
 
 const item = {
@@ -39,56 +33,68 @@ const item = {
 
 export default function Slide03WhatIsPR() {
   return (
-    <section className="relative w-screen h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden px-20 py-24 flex flex-col justify-center">
-      <motion.span
+    <section className="relative w-screen h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden px-20 pt-14 pb-12 flex flex-col">
+      <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-accent)] mb-6"
+        className="font-mono text-xl uppercase tracking-[0.22em] flex items-center gap-4"
       >
-        Definición · Pull Request
-      </motion.span>
+        <span className="text-white bg-[var(--color-bg-dark)] px-4 py-2 rounded">
+          ✗ Sin PR
+        </span>
+        <span className="text-[var(--color-text-secondary)] text-2xl">→</span>
+        <span className="text-white bg-[var(--color-accent)] px-4 py-2 rounded">
+          ✓ Con PR
+        </span>
+        <span className="ml-6 text-[var(--color-text-secondary)] tracking-[0.18em]">
+          Las mismas 4 actividades, una sola herramienta
+        </span>
+      </motion.div>
 
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
-        className="font-black leading-[0.85] tracking-[-0.04em] text-[clamp(96px,12vw,160px)]"
+        transition={{ duration: 0.6, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
+        className="mt-8 font-black leading-[0.85] tracking-[-0.04em] text-[clamp(96px,12vw,160px)]"
       >
-        ¿QUÉ ES{" "}
-        <span className="text-[var(--color-accent)]">/</span> UN PR?
+        PULL <span className="text-[var(--color-accent)]">REQUEST</span>
       </motion.h2>
 
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-8 max-w-3xl text-2xl text-[var(--color-text-secondary)] leading-snug"
+        transition={{ duration: 0.5, delay: 0.35 }}
+        className="mt-6 max-w-4xl text-3xl text-[var(--color-text-secondary)] leading-snug"
       >
-        Una feature de los hostings de Git que convierte un cambio de código en
-        una conversación auditada.
+        Una feature de los hostings de Git que convierte un cambio de código en{" "}
+        <span className="text-[var(--color-text-primary)] font-bold">
+          una conversación auditada.
+        </span>
       </motion.p>
 
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="mt-16 grid grid-cols-3 gap-6"
+        className="mt-auto grid grid-cols-4 gap-6"
       >
-        {cards.map(({ icon: Icon, title, description }) => (
+        {solutions.map(({ activity, answer }) => (
           <motion.div
-            key={title}
+            key={activity}
             variants={item}
-            className="rounded-xl border border-[var(--color-divider)] p-8 bg-[var(--color-bg-primary)] hover:border-[var(--color-accent)] transition-colors"
+            className="rounded-xl border border-[var(--color-divider)] p-8 bg-[var(--color-bg-primary)] hover:border-[var(--color-accent)] transition-colors flex flex-col gap-5"
           >
-            <div className="w-12 h-12 bg-[var(--color-accent)] flex items-center justify-center">
-              <Icon className="text-white" strokeWidth={1.5} size={24} />
+            <div className="flex flex-col gap-4">
+              <span className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white font-black text-3xl leading-none">
+                ✓
+              </span>
+              <h3 className="font-black text-3xl uppercase tracking-tight leading-none">
+                {activity}
+              </h3>
             </div>
-            <h3 className="mt-6 font-black text-2xl uppercase tracking-tight">
-              {title}
-            </h3>
-            <p className="mt-3 text-base text-[var(--color-text-secondary)] leading-relaxed">
-              {description}
+            <p className="text-2xl text-[var(--color-text-secondary)] leading-snug">
+              {answer}
             </p>
           </motion.div>
         ))}

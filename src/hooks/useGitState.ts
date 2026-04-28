@@ -17,20 +17,20 @@ const initialFiles: FileChange[] = [
 ];
 
 export const initialGitState: GitState = {
-  branches: [{ name: "master", color: "#0A0A0A" }],
-  currentBranch: "master",
+  branches: [{ name: "main", color: "#0A0A0A" }],
+  currentBranch: "main",
   commits: [
     {
       id: "1",
       hash: "a3f2c1b",
-      branch: "master",
+      branch: "main",
       message: "initial commit",
       pushed: true,
     },
     {
       id: "2",
       hash: "7e9d4f0",
-      branch: "master",
+      branch: "main",
       message: "add readme",
       pushed: true,
     },
@@ -49,7 +49,7 @@ function gitReducer(state: GitState, action: GitAction): GitState {
         return { ...state, currentBranch: action.name };
       }
       const masterCommitsCount = state.commits.filter(
-        (c) => c.branch === "master",
+        (c) => c.branch === "main",
       ).length;
       const newBranch: Branch = {
         name: action.name,
@@ -100,8 +100,8 @@ function gitReducer(state: GitState, action: GitAction): GitState {
       const mergeCommit: Commit = {
         id: String(state.commits.length + 1),
         hash: action.hash,
-        branch: "master",
-        message: `Merge ${state.currentBranch} into master`,
+        branch: "main",
+        message: `Merge ${state.currentBranch} into main`,
         pushed: true,
       };
       return {
@@ -110,7 +110,7 @@ function gitReducer(state: GitState, action: GitAction): GitState {
         branches: state.branches.map((b) =>
           b.name === state.currentBranch ? { ...b, merged: true } : b,
         ),
-        currentBranch: "master",
+        currentBranch: "main",
         prStatus: "merged",
         filesChanged: [],
       };

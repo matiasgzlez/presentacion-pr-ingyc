@@ -65,35 +65,46 @@ function TerminalLine({ line }: { line: TerminalLine }) {
 
 export default function Slide05Flow() {
   return (
-    <section className="relative w-screen h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden px-20 py-24 flex items-center">
-      <div className="grid grid-cols-12 gap-12 w-full">
-        <div className="col-span-5 flex flex-col gap-12">
-          <motion.span
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]"
-          >
-            El Flujo · 3 Pasos
-          </motion.span>
+    <section className="relative w-screen h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden px-20 pt-14 pb-12 flex flex-col">
+      <motion.span
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="font-mono text-xl uppercase tracking-[0.22em] text-[var(--color-accent)]"
+      >
+        <span className="text-[var(--color-text-secondary)]">¿Cómo se construye ese arco?</span>{" "}
+        <span className="text-[var(--color-accent)]">feature/login → main</span>
+      </motion.span>
 
-          <ul className="flex flex-col gap-10">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+        className="mt-4 font-black leading-[0.95] tracking-[-0.03em] text-6xl md:text-7xl"
+      >
+        Así nace un PR.{" "}
+        <span className="text-[var(--color-accent)]">3 comandos.</span>
+      </motion.h2>
+
+      <div className="grid grid-cols-12 gap-10 w-full mt-12 flex-1 items-center">
+        <div className="col-span-5 flex flex-col">
+          <ul className="flex flex-col gap-8">
             {steps.map((step, i) => (
               <motion.li
                 key={step.num}
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 + i * 0.15 }}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.15 }}
                 className="flex items-baseline gap-6"
               >
-                <span className="font-black text-[96px] leading-none text-[var(--color-accent)] tracking-[-0.04em]">
+                <span className="font-black text-[120px] leading-none text-[var(--color-accent)] tracking-[-0.04em]">
                   {step.num}
                 </span>
-                <div className="flex flex-col">
-                  <span className="font-black text-2xl tracking-tight">
+                <div className="flex flex-col gap-2">
+                  <span className="font-black text-3xl tracking-tight leading-tight">
                     {step.title}
                   </span>
-                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)] mt-1">
+                  <span className="font-mono text-lg uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
                     {step.hint}
                   </span>
                 </div>
@@ -106,18 +117,18 @@ export default function Slide05Flow() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="col-span-7 rounded-lg bg-[var(--color-bg-dark)] p-8 font-mono text-base shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]"
+          className="col-span-7 rounded-lg bg-[var(--color-bg-dark)] p-10 font-mono text-2xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]"
         >
-          <div className="flex items-center gap-2 mb-6">
-            <span className="w-3 h-3 rounded-full bg-white/15" />
-            <span className="w-3 h-3 rounded-full bg-white/15" />
-            <span className="w-3 h-3 rounded-full bg-white/15" />
-            <span className="ml-4 font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
+          <div className="flex items-center gap-2 mb-8">
+            <span className="w-4 h-4 rounded-full bg-white/15" />
+            <span className="w-4 h-4 rounded-full bg-white/15" />
+            <span className="w-4 h-4 rounded-full bg-white/15" />
+            <span className="ml-5 font-mono text-base uppercase tracking-[0.22em] text-white/40">
               ~/repo · main → featureX
             </span>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {lines.map((line, idx) => (
               <TerminalLine key={idx} line={line} />
             ))}

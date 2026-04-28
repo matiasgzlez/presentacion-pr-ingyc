@@ -10,7 +10,7 @@ export default function Slide01Cover() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]"
+          className="font-mono text-2xl uppercase tracking-[0.28em] text-[var(--color-accent)]"
         >
           Deploy en Viernes · Unidad II · GCS
         </motion.span>
@@ -31,7 +31,7 @@ export default function Slide01Cover() {
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-              className="text-[clamp(120px,15vw,220px)] -mt-[0.06em] text-transparent [-webkit-text-stroke:2px_#0A0A0A]"
+              className="text-[clamp(120px,15vw,220px)] -mt-[0.06em] text-[var(--color-text-primary)]"
             >
               REQUEST
             </motion.span>
@@ -41,7 +41,7 @@ export default function Slide01Cover() {
             initial={{ y: -200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 120, damping: 8, delay: 0.5 }}
-            className="absolute right-12 top-1/2 -translate-y-1/2 font-black leading-none text-[clamp(220px,32vw,520px)] text-[var(--color-accent)]"
+            className="absolute right-48 top-1/2 -translate-y-1/2 font-black leading-none text-[clamp(220px,32vw,520px)] text-[var(--color-accent)]"
           >
             I
           </motion.span>
@@ -64,10 +64,9 @@ export default function Slide01Cover() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.4 }}
-        className="absolute bottom-12 left-20 right-20 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]"
+        className="absolute bottom-12 left-20 right-20 flex items-center justify-between font-mono text-xl uppercase tracking-[0.22em] text-[var(--color-text-secondary)]"
       >
-        <span>Matías González</span>
-        <span>2026 · Cátedra GCS</span>
+        <span>2026</span>
         <span>Single Repository · Parte I</span>
       </motion.div>
     </section>

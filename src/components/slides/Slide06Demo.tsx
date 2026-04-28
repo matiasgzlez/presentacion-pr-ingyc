@@ -19,6 +19,16 @@ const PRELOADED_COMMANDS = [
   "git pr merge",
 ];
 
+const STEP_EXPLANATIONS = [
+  "Crea una branch nueva a partir de main y nos cambiamos a ella.",
+  "Marca todos los archivos modificados para incluirlos en el próximo commit.",
+  "Confirma los cambios marcados como un commit en la branch local.",
+  "Sube la branch al servidor remoto. Sin esto, nadie más ve tus cambios.",
+  "Abre el Pull Request: pide revisión formal del equipo antes del merge.",
+  "Un revisor lee el código y lo aprueba. El PR queda listo para integrarse.",
+  "Integra la branch a main. La feature ya está en producción.",
+];
+
 export default function Slide06Demo() {
   const [state, dispatch] = useGitState();
   const [preloadedIndex, setPreloadedIndex] = useState(0);
@@ -37,7 +47,6 @@ export default function Slide06Demo() {
 
     if (trimmed === "git pr create") {
       setShowPRModal(true);
-      window.setTimeout(() => setShowPRModal(false), 2000);
     }
 
     if (trimmed === PRELOADED_COMMANDS[preloadedIndex]?.trim()) {
@@ -47,49 +56,67 @@ export default function Slide06Demo() {
     }
   };
 
+  const closePRModal = () => setShowPRModal(false);
+
   const sourceForModal =
-    state.currentBranch !== "master"
+    state.currentBranch !== "main"
       ? state.currentBranch
       : "feature/saludo";
 
   return (
     <section className="relative w-screen h-screen flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden">
-      <header className="flex justify-between items-center px-10 py-3 border-b border-[var(--color-divider)] flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[var(--color-accent)] uppercase tracking-[0.28em] text-xs font-mono">
+      <header className="flex justify-between items-center px-10 py-4 border-b border-[var(--color-divider)] flex-shrink-0">
+        <div className="flex items-center gap-4">
+          <span className="w-3 h-3 rounded-full bg-[var(--color-accent)] animate-pulse" />
+          <span className="text-[var(--color-accent)] uppercase tracking-[0.28em] text-xl font-mono font-bold">
             Demo en vivo
           </span>
+          <span className="ml-4 text-[var(--color-text-secondary)] text-xl font-mono">
+            Los 3 comandos del slide anterior, ahora en vivo
+          </span>
         </div>
-        <span className="font-mono text-xs text-[var(--color-text-secondary)]">
-          single-repository · branch:{" "}
-          <span className="text-[var(--color-text-primary)] font-semibold">
+        <span className="font-mono text-xl text-[var(--color-text-secondary)]">
+          branch:{" "}
+          <span className="text-[var(--color-text-primary)] font-bold">
             {state.currentBranch}
           </span>
         </span>
       </header>
 
-      <div className="flex flex-1 min-h-0">
-        <div className="flex-1 min-w-0 bg-[var(--color-bg-primary)]">
-          <GitVisualization state={state} className="w-full h-full px-4 py-2" />
-        </div>
-        <PRStatusPanel
-          filesChanged={state.filesChanged}
-          status={state.prStatus}
-          className="w-[280px] border-l border-[var(--color-divider)] flex-shrink-0"
-        />
+      <div className="flex items-center gap-5 px-10 py-4 bg-[var(--color-bg-secondary)] border-b border-[var(--color-divider)] flex-shrink-0">
+        <span className="font-mono text-base uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold whitespace-nowrap">
+          Paso {Math.min(preloadedIndex + 1, PRELOADED_COMMANDS.length)} / {PRELOADED_COMMANDS.length}
+        </span>
+        <span className="text-xl text-[var(--color-text-primary)] leading-snug">
+          {STEP_EXPLANATIONS[Math.min(preloadedIndex, STEP_EXPLANATIONS.length - 1)]}
+        </span>
       </div>
 
       <Terminal
         onExecute={handleExecute}
         history={state.terminalHistory}
         preloadedCommand={currentPreloadedCommand}
-        className="border-t border-[var(--color-divider)] h-[32vh] flex-shrink-0"
+        className="border-b border-[var(--color-divider)] h-[38vh] flex-shrink-0"
       />
+
+      <div className="flex flex-1 min-h-0">
+        <div className="flex-1 min-w-0 bg-[var(--color-bg-primary)] flex items-center justify-center">
+          <GitVisualization state={state} className="w-full h-full px-4 py-2" />
+        </div>
+        <PRStatusPanel
+          filesChanged={state.filesChanged}
+          status={state.prStatus}
+          className="w-[360px] border-l border-[var(--color-divider)] flex-shrink-0"
+        />
+      </div>
 
       <AnimatePresence>
         {showPRModal && (
-          <PRCreateModal key="pr-modal" sourceBranch={sourceForModal} />
+          <PRCreateModal
+            key="pr-modal"
+            sourceBranch={sourceForModal}
+            onClose={closePRModal}
+          />
         )}
       </AnimatePresence>
     </section>

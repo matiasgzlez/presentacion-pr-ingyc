@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useGitState } from "@/hooks/useGitState";
 import { executeCommand } from "@/lib/gitCommands";
 import GitVisualization from "@/components/demo/GitVisualization";
@@ -63,26 +63,10 @@ export default function Slide06Demo() {
       ? state.currentBranch
       : "feature/saludo";
 
+  const onFeatureBranch = state.currentBranch !== "main";
+
   return (
     <section className="relative w-screen h-screen flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-hidden">
-      <header className="flex justify-between items-center px-10 py-4 border-b border-[var(--color-divider)] flex-shrink-0">
-        <div className="flex items-center gap-4">
-          <span className="w-3 h-3 rounded-full bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[var(--color-accent)] uppercase tracking-[0.28em] text-xl font-mono font-bold">
-            Demo en vivo
-          </span>
-          <span className="ml-4 text-[var(--color-text-secondary)] text-xl font-mono">
-            Los 3 comandos del slide anterior, ahora en vivo
-          </span>
-        </div>
-        <span className="font-mono text-xl text-[var(--color-text-secondary)]">
-          branch:{" "}
-          <span className="text-[var(--color-text-primary)] font-bold">
-            {state.currentBranch}
-          </span>
-        </span>
-      </header>
-
       <div className="flex items-center gap-5 px-10 py-4 bg-[var(--color-bg-secondary)] border-b border-[var(--color-divider)] flex-shrink-0">
         <span className="font-mono text-base uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold whitespace-nowrap">
           Paso {Math.min(preloadedIndex + 1, PRELOADED_COMMANDS.length)} / {PRELOADED_COMMANDS.length}
@@ -92,22 +76,47 @@ export default function Slide06Demo() {
         </span>
       </div>
 
-      <Terminal
-        onExecute={handleExecute}
-        history={state.terminalHistory}
-        preloadedCommand={currentPreloadedCommand}
-        className="border-b border-[var(--color-divider)] h-[38vh] flex-shrink-0"
-      />
-
-      <div className="flex flex-1 min-h-0">
-        <div className="flex-1 min-w-0 bg-[var(--color-bg-primary)] flex items-center justify-center">
-          <GitVisualization state={state} className="w-full h-full px-4 py-2" />
-        </div>
+      <div className="flex flex-shrink-0 border-b border-[var(--color-divider)] h-[38vh]">
+        <Terminal
+          onExecute={handleExecute}
+          history={state.terminalHistory}
+          preloadedCommand={currentPreloadedCommand}
+          className="flex-1 min-w-0 h-full"
+        />
         <PRStatusPanel
           filesChanged={state.filesChanged}
           status={state.prStatus}
-          className="w-[360px] border-l border-[var(--color-divider)] flex-shrink-0"
+          className="w-[400px] border-l border-[var(--color-divider)] flex-shrink-0 h-full overflow-y-auto"
         />
+      </div>
+
+      <div className="relative flex-1 min-h-0 bg-[var(--color-bg-primary)] flex items-center justify-center">
+        <motion.div
+          key={state.currentBranch}
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="absolute top-4 left-6 z-10 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white border border-[var(--color-divider)] shadow-sm"
+        >
+          <span
+            className="w-2.5 h-2.5 rounded-full"
+            style={{
+              backgroundColor: onFeatureBranch ? "#FF6B35" : "#0A0A0A",
+            }}
+          />
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+            branch
+          </span>
+          <span
+            className="font-mono text-base font-bold"
+            style={{
+              color: onFeatureBranch ? "#FF6B35" : "#0A0A0A",
+            }}
+          >
+            {state.currentBranch}
+          </span>
+        </motion.div>
+        <GitVisualization state={state} className="w-full h-full px-6 py-2" />
       </div>
 
       <AnimatePresence>

@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { FollowerPointerCard } from "@/components/ui/following-pointer";
 import type { Slide } from "@/types";
 import ProgressBar from "./ProgressBar";
 import Slide01Cover from "./slides/Slide01Cover";
@@ -48,26 +49,31 @@ export default function Presentation() {
 
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
-      <ProgressBar current={currentSlide} total={total} />
+      <FollowerPointerCard
+        title="Deploy en Viernes"
+        className="h-full w-full"
+      >
+        <ProgressBar current={currentSlide} total={total} />
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={slide.id}
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -30 }}
-          transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-          className="absolute inset-0"
-        >
-          <SlideComponent />
-        </motion.div>
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slide.id}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+            className="absolute inset-0"
+          >
+            <SlideComponent />
+          </motion.div>
+        </AnimatePresence>
 
-      <div className="fixed bottom-6 right-8 z-40 font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)] pointer-events-none">
-        {String(currentSlide + 1).padStart(2, "0")}
-        <span className="mx-1 text-[var(--color-divider)]">/</span>
-        {String(total).padStart(2, "0")}
-      </div>
+        <div className="fixed bottom-6 right-8 z-40 font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)] pointer-events-none">
+          {String(currentSlide + 1).padStart(2, "0")}
+          <span className="mx-1 text-[var(--color-divider)]">/</span>
+          {String(total).padStart(2, "0")}
+        </div>
+      </FollowerPointerCard>
     </main>
   );
 }

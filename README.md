@@ -89,11 +89,5 @@ Estilo moderno, minimalista, audaz. Alto contraste blanco / negro carbón / gris
 | `--color-success` | `#2D9F4F` |
 | `--color-merged` | `#6B3FA0` |
 
-## 📍 Estado del proyecto
-
-- **Fase 1** ✅ Esqueleto: Next 15 + Tailwind v4 + 8 slides navegables.
-- Fase 2–5: en construcción.
-
----
 
 Hecho con ☕ por **Deploy en Viernes**

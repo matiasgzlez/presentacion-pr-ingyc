@@ -3,12 +3,15 @@ import type { ComponentType } from "react";
 export type SlideId =
   | "cover"
   | "problem"
+  | "definition"
   | "what-is-pr"
+  | "repo-configs"
   | "single-repo"
-  | "flow"
+  | "when-to-open"
   | "demo"
   | "merge-strategies"
-  | "closing";
+  | "closing"
+  | "thanks";
 
 export interface Slide {
   id: SlideId;

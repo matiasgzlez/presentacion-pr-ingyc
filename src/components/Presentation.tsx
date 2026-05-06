@@ -8,22 +8,28 @@ import type { Slide } from "@/types";
 import ProgressBar from "./ProgressBar";
 import Slide01Cover from "./slides/Slide01Cover";
 import Slide02Problem from "./slides/Slide02Problem";
+import Slide03Definition from "./slides/Slide03Definition";
 import Slide03WhatIsPR from "./slides/Slide03WhatIsPR";
+import SlideRepoConfigs from "./slides/SlideRepoConfigs";
 import Slide04SingleRepo from "./slides/Slide04SingleRepo";
-import Slide05Flow from "./slides/Slide05Flow";
+import SlideWhenToOpen from "./slides/SlideWhenToOpen";
 import Slide06Demo from "./slides/Slide06Demo";
 import Slide07MergeStrategies from "./slides/Slide07MergeStrategies";
 import Slide08Closing from "./slides/Slide08Closing";
+import Slide09Thanks from "./slides/Slide09Thanks";
 
 const slides: Slide[] = [
   { id: "cover", label: "Portada", component: Slide01Cover },
   { id: "problem", label: "Problema", component: Slide02Problem },
+  { id: "definition", label: "Definición", component: Slide03Definition },
   { id: "what-is-pr", label: "¿Qué es un PR?", component: Slide03WhatIsPR },
+  { id: "repo-configs", label: "Configuraciones", component: SlideRepoConfigs },
   { id: "single-repo", label: "Single Repository", component: Slide04SingleRepo },
-  { id: "flow", label: "Flujo", component: Slide05Flow },
+  { id: "when-to-open", label: "¿Cuándo abrirlo?", component: SlideWhenToOpen },
   { id: "demo", label: "Demo en vivo", component: Slide06Demo },
   { id: "merge-strategies", label: "Estrategias de merge", component: Slide07MergeStrategies },
   { id: "closing", label: "Cierre", component: Slide08Closing },
+  { id: "thanks", label: "Gracias", component: Slide09Thanks },
 ];
 
 export default function Presentation() {

@@ -77,23 +77,13 @@ export default function Slide08Closing() {
         ))}
       </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 2.0 }}
-        className="mt-auto text-3xl text-[var(--color-accent)] font-bold italic"
-      >
-        El viernes deployás. El lunes dormís tranquilo.
-      </motion.p>
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 2.4 }}
-        className="mt-6 flex items-center justify-between font-mono text-base uppercase tracking-[0.22em] text-[var(--color-text-secondary)]"
+        transition={{ duration: 0.4, delay: 2.0 }}
+        className="mt-auto flex items-center justify-between font-mono text-base uppercase tracking-[0.22em] text-[var(--color-text-secondary)]"
       >
         <span>Pull Request · Parte I</span>
-        <span className="text-[var(--color-accent)]">Gracias</span>
         <span>Parte II → próxima clase</span>
       </motion.div>
     </section>

@@ -58,6 +58,12 @@ export default function Slide06Demo() {
 
   const closePRModal = () => setShowPRModal(false);
 
+  const handleReset = () => {
+    dispatch({ type: "RESET" });
+    setPreloadedIndex(0);
+    setShowPRModal(false);
+  };
+
   const sourceForModal =
     state.currentBranch !== "main"
       ? state.currentBranch
@@ -71,9 +77,15 @@ export default function Slide06Demo() {
         <span className="font-mono text-base uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold whitespace-nowrap">
           Paso {Math.min(preloadedIndex + 1, PRELOADED_COMMANDS.length)} / {PRELOADED_COMMANDS.length}
         </span>
-        <span className="text-xl text-[var(--color-text-primary)] leading-snug">
+        <span className="text-xl text-[var(--color-text-primary)] leading-snug flex-1">
           {STEP_EXPLANATIONS[Math.min(preloadedIndex, STEP_EXPLANATIONS.length - 1)]}
         </span>
+        <button
+          onClick={handleReset}
+          className="flex-shrink-0 flex items-center gap-2 font-mono text-sm uppercase tracking-[0.16em] px-4 py-2 rounded-lg border border-[var(--color-divider)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
+        >
+          ↺ Reiniciar
+        </button>
       </div>
 
       <div className="flex flex-shrink-0 border-b border-[var(--color-divider)] h-[38vh]">

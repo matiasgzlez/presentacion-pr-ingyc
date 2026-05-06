@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 const lines = [
   { text: "Hacés un", accent: false },
   { text: "DEPLOY EN VIERNES", accent: true },
-  { text: "y el lunes dormís tranquilo.", accent: false },
+  { text: "y el finde descansás.", accent: false },
 ];
 
 function CurtainLine({

@@ -9,15 +9,15 @@ const solutions = [
   },
   {
     activity: "Control",
-    answer: "CI corre los tests automáticamente antes de habilitar el merge.",
+    answer: "El PR es la petición de cambio formal; revisores y aprobaciones evalúan su impacto antes del merge.",
   },
   {
     activity: "Auditoría",
-    answer: "Conversación, revisores y aprobaciones quedan registrados para siempre.",
+    answer: "Cada commit y merge queda en la bitácora del repositorio, consultable en cualquier momento.",
   },
   {
     activity: "Contabilidad",
-    answer: "Cada PR es una entrada en el libro de cambios del proyecto.",
+    answer: "Se puede ver en tiempo real el estado de cada cambio: abierto, en revisión, aprobado o mergeado.",
   },
 ];
 

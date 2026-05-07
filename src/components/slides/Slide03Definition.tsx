@@ -101,20 +101,6 @@ export default function Slide03Definition() {
         ))}
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.9 }}
-        className="mt-auto border-l-4 border-[var(--color-accent)] pl-8 py-2"
-      >
-        <p className="text-2xl text-[var(--color-text-secondary)] leading-snug max-w-5xl">
-          En resumen: un PR es una{" "}
-          <span className="text-[var(--color-text-primary)] font-bold">
-            solicitud para integrar los cambios de una rama al proyecto principal
-          </span>
-          {" "}— espacio para que el equipo revise, comente y apruebe el código antes de fusionarlo.
-        </p>
-      </motion.div>
     </section>
   );
 }

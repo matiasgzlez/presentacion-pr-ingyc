@@ -61,18 +61,6 @@ export default function Slide03WhatIsPR() {
         PULL <span className="text-[var(--color-accent)]">REQUEST</span>
       </motion.h2>
 
-      <motion.p
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.35 }}
-        className="mt-6 max-w-4xl text-3xl text-[var(--color-text-secondary)] leading-snug"
-      >
-        Una feature de los hostings de Git que convierte un cambio de código en{" "}
-        <span className="text-[var(--color-text-primary)] font-bold">
-          una conversación auditada.
-        </span>
-      </motion.p>
-
       <motion.div
         variants={container}
         initial="hidden"

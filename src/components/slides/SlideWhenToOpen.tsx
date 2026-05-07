@@ -105,21 +105,6 @@ export default function SlideWhenToOpen() {
         ))}
       </motion.div>
 
-      {/* Summary */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.9 }}
-        className="mt-8 border-l-4 border-[var(--color-accent)] pl-8 py-2"
-      >
-        <p className="text-2xl text-[var(--color-text-secondary)] leading-snug max-w-5xl">
-          No hay un único momento correcto —{" "}
-          <span className="text-[var(--color-text-primary)] font-bold">
-            podés abrirlo al principio, en el medio o al final
-          </span>
-          , según lo que necesités del equipo.
-        </p>
-      </motion.div>
     </section>
   );
 }

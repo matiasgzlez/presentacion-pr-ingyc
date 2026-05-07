@@ -7,7 +7,6 @@ import { FollowerPointerCard } from "@/components/ui/following-pointer";
 import type { Slide } from "@/types";
 import ProgressBar from "./ProgressBar";
 import Slide01Cover from "./slides/Slide01Cover";
-import Slide02Problem from "./slides/Slide02Problem";
 import Slide03Definition from "./slides/Slide03Definition";
 import Slide03WhatIsPR from "./slides/Slide03WhatIsPR";
 import SlideRepoConfigs from "./slides/SlideRepoConfigs";
@@ -20,7 +19,6 @@ import Slide09Thanks from "./slides/Slide09Thanks";
 
 const slides: Slide[] = [
   { id: "cover", label: "Portada", component: Slide01Cover },
-  { id: "problem", label: "Problema", component: Slide02Problem },
   { id: "definition", label: "Definición", component: Slide03Definition },
   { id: "what-is-pr", label: "¿Qué es un PR?", component: Slide03WhatIsPR },
   { id: "repo-configs", label: "Configuraciones", component: SlideRepoConfigs },

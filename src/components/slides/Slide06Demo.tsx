@@ -14,9 +14,9 @@ const PRELOADED_COMMANDS = [
   "git add .",
   'git commit -m "add saludo"',
   "git push -u origin feature/saludo",
-  "git pr create",
-  "git pr approve",
-  "git pr merge",
+  "gh pr create",
+  "gh pr review --approve",
+  "gh pr merge",
 ];
 
 const STEP_EXPLANATIONS = [
@@ -45,7 +45,7 @@ export default function Slide06Demo() {
 
     executeCommand(command, state, dispatch);
 
-    if (trimmed === "git pr create") {
+    if (trimmed === "gh pr create") {
       setShowPRModal(true);
     }
 

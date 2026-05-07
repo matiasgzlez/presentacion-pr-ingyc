@@ -45,7 +45,7 @@ const STATUS_META: Record<
   FileChange["status"],
   { label: string; color: string }
 > = {
-  added: { label: "+ ADD", color: "#2D9F4F" },
+  "new file": { label: "+ NEW", color: "#2D9F4F" },
   modified: { label: "~ MOD", color: "#FF6B35" },
   deleted: { label: "- DEL", color: "#EF4444" },
 };

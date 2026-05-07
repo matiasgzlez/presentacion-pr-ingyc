@@ -12,7 +12,7 @@ import type {
 const FEATURE_BRANCH_COLOR = "#FF6B35";
 
 const initialFiles: FileChange[] = [
-  { name: "src/components/Saludo.tsx", status: "added" },
+  { name: "src/components/Saludo.tsx", status: "new file" },
   { name: "README.md", status: "modified" },
 ];
 

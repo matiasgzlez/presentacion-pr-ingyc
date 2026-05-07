@@ -17,7 +17,7 @@ const HELP_TEXT = [
   "  git add . | git add <file>",
   '  git commit -m "<message>"',
   "  git push | git push -u origin <branch>",
-  "  git pr create | git pr approve | git pr merge",
+  "  gh pr create | gh pr review --approve | gh pr merge",
   "  git log --oneline",
   "  clear | help",
 ];
@@ -125,11 +125,15 @@ export function executeCommand(
       type: "output",
       text: ` * [new branch]      ${state.currentBranch} -> ${state.currentBranch}`,
     });
+    append({
+      type: "output",
+      text: `Branch '${state.currentBranch}' set up to track 'origin/${state.currentBranch}'.`,
+    });
     return { success: true };
   }
 
-  // git pr create
-  if (trimmed === "git pr create") {
+  // gh pr create
+  if (trimmed === "gh pr create") {
     if (state.currentBranch === "main") {
       append({
         type: "error",
@@ -138,27 +142,27 @@ export function executeCommand(
       return { success: false };
     }
     dispatch({ type: "PR_CREATE" });
-    append({ type: "success", text: "Pull request #1 created" });
+    append({ type: "success", text: "✓ Created pull request #1 (feature/saludo)" });
     append({
       type: "output",
-      text: `https://github.com/team/repo/pull/1`,
+      text: `https://github.com/org/proyecto/pull/1`,
     });
     return { success: true };
   }
 
-  // git pr approve
-  if (trimmed === "git pr approve") {
+  // gh pr review --approve
+  if (trimmed === "gh pr review --approve") {
     if (state.prStatus !== "open") {
       append({ type: "error", text: "error: no open PR to approve" });
       return { success: false };
     }
     dispatch({ type: "PR_APPROVE" });
-    append({ type: "success", text: "✓ Approved by @reviewer" });
+    append({ type: "success", text: "✓ Approved pull request #1 (feature/saludo)" });
     return { success: true };
   }
 
-  // git pr merge
-  if (trimmed === "git pr merge") {
+  // gh pr merge
+  if (trimmed === "gh pr merge") {
     if (state.prStatus !== "approved") {
       append({
         type: "error",

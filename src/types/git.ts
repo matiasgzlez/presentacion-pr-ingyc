@@ -16,7 +16,7 @@ export type Branch = {
 
 export type FileChange = {
   name: string;
-  status: "added" | "modified" | "deleted";
+  status: "new file" | "modified" | "deleted";
 };
 
 export type PRStatus = "none" | "draft" | "open" | "approved" | "merged";
